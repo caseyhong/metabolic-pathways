@@ -16,7 +16,7 @@ def parse_recon(filename):
 					if g not in relevant_genes:
 						g = g.replace('(','')
 						g = g.replace(')','')
-						relevant_genes.add(g)
+						relevant_genes.add(g.lower())
 						filtered_g = g.split('_AT')[0]+"_at" #removes numbers, lowercases 
 						filtered_probes.add(filtered_g) 
 
