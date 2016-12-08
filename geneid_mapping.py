@@ -1,31 +1,62 @@
 def prepareEntrez(): 
 	entrezDict = {}
-	entrez = open('recon1_entrez.txt','r+')
+	entrez = open('recon1_entrez_locus.txt','r+')
 	for eid in entrez:
 		eid = eid.replace('\n','')
 		if eid not in entrezDict.keys(): 
-			entrezDict[eid] = True 
+			eid,locus = eid.split('.')
+			biggID = eid+"_AT"+locus 
+			entrezDict[biggID] = True 
 	return entrezDict
 
+#Returns the dictionary that maps ensembl keys to entrez keys found in Recon 1 
+def ensemblToEntrez(reconEntrez): 
+
+	#Generates the entrez w/o loci -> ensembl 
+	entrezEnsemblDict = {}
+	ee = open('recon1_entrez_ensembl.txt','r+')
+	for line in ee: 
+		line = line.replace('\n','')
+		ensembl,entrez = line.split(',')
+		entrezEnsemblDict[entrez] = ensembl
+
+	#Generates the ensembl -> entrez w/ loci mapping 
+	#Even without loci from Biomart, loci are added to ensembl mapping 
+	#where numbers only mean different loci for same gene 
+	ensemblEntrezDict = {}
+	for entrezLociID in reconEntrez:
+		entrezOnlyID = entrezLociID.split('_AT')[0]
+		if entrezOnlyID in entrezEnsemblDict: 
+			ensemblKey = entrezEnsemblDict[entrezOnlyID]
+			if ensemblKey in ensemblEntrezDict: 
+				if entrezLociID not in ensemblEntrezDict[ensemblKey]: 
+					ensemblEntrezDict[ensemblKey].append(entrezLociID)
+			else: 
+				ensemblEntrezDict[ensemblKey] = [entrezLociID]
+
+	return ensemblEntrezDict
+
+# FOR TESTING PURPOSES ONLY
+# To confirm recon1 json and recon1 entrez map
 def mapToEntrez(entrezDict): 
-	probeMap = {} # key: probeid, value: entrezid 
+	idMap = {} # key: BIGGID, value: entrezid 
 	reconGenes = open('recon1_json_genes.txt','r+')
 	reconGenes = reconGenes.readline().split(',')
 	for rGene in reconGenes:
-		rGene = rGene.lower()
-		mappableGeneID = rGene.split('_at')[0]
-		if mappableGeneID in entrezDict.keys() and mappableGeneID not in probeMap: 
-			probeMap[mappableGeneID+"_at"] = mappableGeneID
-
-	return probeMap
+		rGene = rGene.upper()
+		# mappableGeneID = rGene.split('_AT')[0]
+		if rGene in entrezDict.keys() and rGene not in idMap: 
+			idMap[rGene] = True 
+	return idMap
 
 if __name__ == '__main__':
 	entrezDict = prepareEntrez()
-	probe_entrez = mapToEntrez(entrezDict)
-	print probe_entrez
-	print len(probe_entrez)
+	ensemblEntrezDict = ensemblToEntrez(entrezDict)
+
+
 
 #12/08/2016 133_plus2.csv only maps to 4 in recon as well... 
 #12/08/2016 tried mapping 133a_2.tsv , only got 5-7 mappings from Recon1
+#12/08/2016 mapping recon1_entrez_locus to recon1_json gives 1558 since there are several loci for 1496 genes 
 
 
