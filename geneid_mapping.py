@@ -1,3 +1,4 @@
+#Generates dictionary for entrez ids in Recon1 
 def prepareEntrez(): 
 	entrezDict = {}
 	entrez = open('recon1_entrez_locus.txt','r+')
@@ -44,7 +45,6 @@ def mapToEntrez(entrezDict):
 	reconGenes = reconGenes.readline().split(',')
 	for rGene in reconGenes:
 		rGene = rGene.upper()
-		# mappableGeneID = rGene.split('_AT')[0]
 		if rGene in entrezDict.keys() and rGene not in idMap: 
 			idMap[rGene] = True 
 	return idMap
@@ -52,11 +52,3 @@ def mapToEntrez(entrezDict):
 if __name__ == '__main__':
 	entrezDict = prepareEntrez()
 	ensemblEntrezDict = ensemblToEntrez(entrezDict)
-
-
-
-#12/08/2016 133_plus2.csv only maps to 4 in recon as well... 
-#12/08/2016 tried mapping 133a_2.tsv , only got 5-7 mappings from Recon1
-#12/08/2016 mapping recon1_entrez_locus to recon1_json gives 1558 since there are several loci for 1496 genes 
-
-
