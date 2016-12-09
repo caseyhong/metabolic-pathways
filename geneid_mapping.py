@@ -1,19 +1,20 @@
 #Generates dictionary for entrez ids in Recon1 
 def prepareEntrez(): 
 	entrezDict = {}
-	entrez = open('recon1_entrez_locus.txt','r+')
+	entrez = open('recon1_entrez_tv.txt','r+')
 	for eid in entrez:
 		eid = eid.replace('\n','')
 		if eid not in entrezDict.keys(): 
-			eid,locus = eid.split('.')
-			biggID = eid+"_AT"+locus 
+			eid,transcriptVersion = eid.split('.')
+			biggID = eid+"_AT"+transcriptVersion 
 			entrezDict[biggID] = True 
 	return entrezDict
 
 #Returns the dictionary that maps ensembl keys to entrez keys found in Recon 1 
-def ensemblToEntrez(reconEntrez): 
+def ensemblToEntrez(entrezDict): 
 
-	#Generates the entrez w/o loci -> ensembl 
+	#Generates the entrez w/o transcript version  -> ensembl 
+	#Because BioMart does not provide 
 	entrezEnsemblDict = {}
 	ee = open('recon1_entrez_ensembl.txt','r+')
 	for line in ee: 
@@ -21,19 +22,19 @@ def ensemblToEntrez(reconEntrez):
 		ensembl,entrez = line.split(',')
 		entrezEnsemblDict[entrez] = ensembl
 
-	#Generates the ensembl -> entrez w/ loci mapping 
-	#Even without loci from Biomart, loci are added to ensembl mapping 
-	#where numbers only mean different loci for same gene 
+	#Generates the ensembl -> entrez w/ t.v. mapping 
+	#Even without transcript version from Biomart, t.v. are added to ensembl mapping 
+	#where numbers only mean different t.v. for same gene 
 	ensemblEntrezDict = {}
-	for entrezLociID in reconEntrez:
-		entrezOnlyID = entrezLociID.split('_AT')[0]
+	for entrezTranscriptVID in entrezDict:
+		entrezOnlyID = entrezTranscriptVID.split('_AT')[0]
 		if entrezOnlyID in entrezEnsemblDict: 
 			ensemblKey = entrezEnsemblDict[entrezOnlyID]
 			if ensemblKey in ensemblEntrezDict: 
-				if entrezLociID not in ensemblEntrezDict[ensemblKey]: 
-					ensemblEntrezDict[ensemblKey].append(entrezLociID)
+				if entrezTranscriptVID not in ensemblEntrezDict[ensemblKey]: 
+					ensemblEntrezDict[ensemblKey].append(entrezTranscriptVID.replace('_','u'))
 			else: 
-				ensemblEntrezDict[ensemblKey] = [entrezLociID]
+				ensemblEntrezDict[ensemblKey] = [entrezTranscriptVID.replace('_','u')]
 
 	return ensemblEntrezDict
 
