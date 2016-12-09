@@ -64,9 +64,9 @@ def aggregate(mapping, expression, genes):
 	for i in xrange(len(mapping)):
 		if i == 0:
 			if mapping[i] in genes:
-				s += expression[mapping[i]]
+				s = expression[mapping[i]]
 			else:
-				s += aggregate(mapping[i], expression, genes)
+				s = aggregate(mapping[i], expression, genes)
 
 		if i%2==0 and i > 0:
 			next = mapping[i]
@@ -74,27 +74,67 @@ def aggregate(mapping, expression, genes):
 
 			if next in genes:
 				if operator == '+':
-					s += min(s, expression[next])
+					s = min(s, expression[next])
 				else:
-					s += max(s, expression[next])
+					s = max(s, expression[next])
 			else:
 				if operator == '+':
-					s += min(s, aggregate(next, expression, genes))
+					s = min(s, aggregate(next, expression, genes))
 				else:
-					s += max(s, aggregate(next, expression, genes))
+					s = max(s, aggregate(next, expression, genes))
 	return s
 
 
 if __name__ == '__main__':
-	genes_of_interest,filtered_probes = parse_recon('./RECON1.json')
-	open('./recon1_genes.txt', 'w').close() #clears file 
-	output = open('./recon1_genes.txt','r+')
-	fg = open('./recon1_filteredGenes.txt','w')
+	# genes_of_interest,filtered_probes = parse_recon('./RECON1.json')
+	# open('./recon1_genes.txt', 'w').close() #clears file 
+	# output = open('./recon1_genes.txt','r+')
+	# fg = open('./recon1_filteredGenes.txt','w')
 
-	for gene in filtered_probes: 
-		fg.write(gene+",")
+	# for gene in filtered_probes: 
+	# 	fg.write(gene+",")
 
-	for gene in genes_of_interest:
-		output.write(gene+",")
+	# for gene in genes_of_interest:
+	# 	output.write(gene+",")
 
-	print 'finished writing!'
+	# print 'finished writing!'
+
+	mappings = parse_gpr_mapping('./RECON1.json')
+	# print mappings
+	test1 = mappings[0]
+	expression1 = {'8639ZZZZZZAT1': 2, '26ZZZZZZAT1': 3, '314ZZZZZZAT2': 4, '314ZZZZZZAT1': 5}
+	test2 = ['2134ZZZZZZAT1', '-', ['2131ZZZZZZAT1', '+', '2132ZZZZZZAT1']]
+	expression2 = {'2134ZZZZZZAT1': 2, '2131ZZZZZZAT1': 3, '2132ZZZZZZAT1': 4}
+	test3 = ['54480ZZZZZZAT1', '-', '337876ZZZZZZAT1', '-', ['79586ZZZZZZAT1', '+', '22856ZZZZZZAT1']]
+	expression3 = {'54480ZZZZZZAT1': 2, '337876ZZZZZZAT1': 3, '79586ZZZZZZAT1': 4, '22856ZZZZZZAT1': 5}
+	test4 = ['3948ZZZZZZAT1', '-', '197257ZZZZZZAT1', '-', '3945ZZZZZZAT1', '-', '160287ZZZZZZAT1', '-', ['3945ZZZZZZAT1', '+', '3939ZZZZZZAT1']]
+	expression4 = {'3948ZZZZZZAT1': 2, '197257ZZZZZZAT1': 3, '3945ZZZZZZAT1': 4, '160287ZZZZZZAT1': 5, '3945ZZZZZZAT1': 6, '3939ZZZZZZAT1': 7}
+	test5 = [['4967ZZZZZZAT1', '+', ['1738ZZZZZZAT1', '+', '8050ZZZZZZAT1']], '+', '1743ZZZZZZAT1']
+	expression5 = {'4967ZZZZZZAT1': 2, '1738ZZZZZZAT1': 3, '8050ZZZZZZAT1': 4, '1743ZZZZZZAT1': 5}
+
+	genes1 = expression1.keys()
+	genes2 = expression2.keys()
+	genes3 = expression3.keys()
+	genes4 = expression4.keys()
+	genes5 = expression5.keys()
+
+	print "test 1"
+	print test1
+	print expression1
+	print aggregate(test1, expression1, genes1)
+	print "test 2"
+	print test2
+	print expression2
+	print aggregate(test2, expression2, genes2)
+	print "test 3"
+	print test3
+	print expression3
+	print aggregate(test3, expression3, genes3)
+	print "test 4"
+	print test4
+	print expression4
+	print aggregate(test4, expression4, genes4)
+	print "test 5"
+	print test5
+	print expression5
+	print aggregate(test5, expression5, genes5)
