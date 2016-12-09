@@ -52,3 +52,4 @@ def mapToEntrez(entrezDict):
 if __name__ == '__main__':
 	entrezDict = prepareEntrez()
 	ensemblEntrezDict = ensemblToEntrez(entrezDict)
+	print ensemblEntrezDict
