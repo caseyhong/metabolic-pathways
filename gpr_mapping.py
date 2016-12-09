@@ -68,6 +68,7 @@ def aggregate(mapping, expression, genes):
 			else:
 				s = aggregate(mapping[i], expression, genes)
 
+		# index of gene 
 		if i%2==0 and i > 0:
 			next = mapping[i]
 			operator = mapping[i-1]
