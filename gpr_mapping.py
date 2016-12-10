@@ -65,15 +65,20 @@ def parse_gpr_mapping(filename):
 	# print parsed_mappings
 	return parsed_mappings
 
+#aggregate returns the abiochemical expression value of a reaction given set of genes and corresponding express. value 
+#mapping - individual reaction 
+#expression - dictionary of gene:expressionval 
+#genes - list of genes
+
 def aggregate(mapping, expression, genes):
 	"""
-	aggregate returns the biochemical expression value of a reaction given set of genes and corresponding express.value
+	aggregate returns the biochemical expression value of a reaction given set of genes and corresponding express. value
 	INPUTS:
-	mapping - individual reaction 
-	expression - dictionary of gene:expressionval 
-	genes - list of genes
+		mapping - individual reaction 
+		expression - dictionary of gene:expressionval 
+		genes - list of genes
 	OUTPUT: 
-	biochemical exp. value 
+		biochemical exp. value 
 	"""
 	s = 0
 	for i in xrange(len(mapping)):
