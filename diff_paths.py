@@ -1,5 +1,12 @@
 from igraph import *
 
+x = Graph(directed=True)
+y = Graph(directed=True)
+x.add_vertices(['a','b','c'])
+y.add_vertices(['a','b','c'])
+x.add_edge('a','b',weight=5)
+x.add_edge('a','c',weight=10)
+y.add_edge('a','b',weight=2)
 
 def difference(x,y): 
 	diff_vertex_set = set()
@@ -49,19 +56,6 @@ def createNetwork(metabolites,rxnMap,rxnExpVals):
 if __name__ == '__main__':
 	#createNetwork(metabolites,rxnMap,rxnExpVals)
 
-
-
-
-
-
-
-x = Graph(directed=True)
-y = Graph(directed=True)
-x.add_vertices(['a','b','c'])
-y.add_vertices(['a','b','c'])
-x.add_edge('a','b',weight=5)
-x.add_edge('a','c',weight=10)
-y.add_edge('a','b',weight=2)
 
 
 
