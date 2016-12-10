@@ -1,6 +1,5 @@
 from igraph import *
 
-
 def difference(x,y): 
 	diff_vertex_set = set()
 	edges = {} #key is tuple and value is weight 

@@ -2,7 +2,7 @@ from halp.directed_hypergraph import DirectedHypergraph
 import gpr_mapping as GPR
 from halp.utilities.directed_graph_transformations import to_networkx_digraph
 import networkx as nx
-import igraph as ig
+from igraph import *
 import numpy as np
 
 H = DirectedHypergraph()
@@ -16,6 +16,6 @@ for reaction in met_map:
 g = to_networkx_digraph(H)
 #graph = ig.Graph(len(g), zip(*zip(*nx.to_edgelist(g))[:2]))
 # print nx.to_edgelist(g)
-graph = ig.Graph.Adjacency((nx.to_numpy_matrix(g) > 0).tolist())
+graph = igraph.Graph.Adjacency((nx.to_numpy_matrix(g) > 0).tolist())
 print (graph)
 print(graph.vs)
