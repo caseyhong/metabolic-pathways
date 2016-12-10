@@ -14,6 +14,8 @@ for reaction in met_map:
 	H.add_hyperedge(set(source), set(target), weight=1)
 
 g = to_networkx_digraph(H)
-graph = ig.Graph(len(g), zip(*zip(*nx.to_edgelist(g))[:2]))
+#graph = ig.Graph(len(g), zip(*zip(*nx.to_edgelist(g))[:2]))
 # print nx.to_edgelist(g)
-# graph = ig.Graph.Adjacency((nx.to_numpy_matrix(g) > 0).tolist())
+graph = ig.Graph.Adjacency((nx.to_numpy_matrix(g) > 0).tolist())
+print (graph)
+print(graph.vs)
