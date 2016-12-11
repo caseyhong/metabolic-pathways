@@ -75,6 +75,8 @@ def generateDigraph(patientToRxns):
 		rxn_expVal = patientToRxns[patient]
 		hg = add_to_HG(hg,rxn_expVal)
 
+	#Invert the weights 
+	hg = invert_weights(hg)
 	#Create final digraph
 	dg = convert_to_DG(hg)
 	return dg 
@@ -105,16 +107,29 @@ def mcf(fileName,cancer_ids,healthy_ids):
 	return diff_g
 
  
+# source - a list containing the source vertex IDs which should be included in the result. If None, all vertices will be considered.
+# target - a list containing the target vertex IDs which should be included in the result. If None, all vertices will be considered.
+# weights - a list containing the edge weights. It can also be an attribute name (edge weights are retrieved from the given attribute) or None (all edges have equal weight).
+# mode - the type of shortest paths to be used for the calculation in directed graphs. OUT means only outgoing, IN means only incoming paths. ALL means to consider the directed graph as an undirected one.
+# Returns:
+# the shortest path lengths for given vertices in a matrix
 
+#('h2o_c', 'so4_l')
+#('o2_c', 'acac_c'), ('o2_c', 'fum_c'), ('o2_c', 'h_c'), ('h2o_c', 'acac_c'), ('h2o_c', 'fum_c'), ('h2o_c', 'h_c'), ('tym_c', 'acac_c'), ('tym_c', 'fum_c'), ('tym_c', 'h_c')
+def run_dijkstra(graph):
+	x = graph.shortest_paths_dijkstra(source=None, target=None, weights=None, mode=OUT)
+	#print x 
+
+	
 
 
 if __name__ == '__main__':
 	lung_file = '../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv'
 	lung_diff_g = mcf(lung_file,[1,2],[39,44])
 
-	colon_file = '../../../../../Desktop/RNASeq_Files/GSE41258_series_matrix_colon.txt'
-	x = mcf(colon_file,[1],[1])
-	print x 
+	# colon_file = '../../../../../Desktop/RNASeq_Files/GSE41258_series_matrix_colon.txt'
+	# x = mcf(colon_file,[1],[1])
+	run_dijkstra(lung_diff_g) 
 
 
 
