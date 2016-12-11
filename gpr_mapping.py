@@ -45,13 +45,13 @@ def parse_gpr_mapping(filename):
 				hashed_rule = []
 				for word in words:
 					if word[0] != '(' and word[-1] != ')':
-						h = word.replace('_','ZZZZZZ')
+						h = word.replace('_','u')
 						hashed_rule.append(h.encode('ascii'))
 					elif word[0] == '(':
-						h = word.replace('_','ZZZZZZ')
+						h = word.replace('_','u')
 						hashed_rule.append(h.encode('ascii'))
 					else:
-						h = word.replace('_','ZZZZZZ')
+						h = word.replace('_','u')
 						hashed_rule.append(h.encode('ascii'))
 						hashed_rule.append(')')
 				hashed = ''.join(hashed_rule)
@@ -85,6 +85,8 @@ def aggregate(mapping, expression, genes):
 		if i == 0:
 			if mapping[i] in genes:
 				s = expression[mapping[i]]
+			elif mapping[i] not in genes and type(mapping[i]) is not list: 
+				s = 0 
 			else:
 				s = aggregate(mapping[i], expression, genes)
 
@@ -98,6 +100,8 @@ def aggregate(mapping, expression, genes):
 					s = min(s, expression[next])
 				else:
 					s = max(s, expression[next])
+			elif next not in genes and type(next) is not list: 
+				s = 0 
 			else:
 				if operator == '+':
 					s = min(s, aggregate(next, expression, genes))
@@ -131,6 +135,8 @@ def get_metabolite_associations(filename):
 	return res
 
 if __name__ == '__main__':
+	print 'HELLO'
+
 	# genes_of_interest,filtered_probes = parse_recon('./RECON1.json')
 	# open('./recon1_genes.txt', 'w').close() #clears file 
 	# output = open('./recon1_genes.txt','r+')
@@ -183,5 +189,4 @@ if __name__ == '__main__':
 	# print test5
 	# print expression5
 	# print aggregate(test5, expression5, genes5)
-
-	print get_metabolite_associations('./RECON1.json')
+	# print get_metabolite_associations('./RECON1.json')
