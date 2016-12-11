@@ -134,6 +134,17 @@ def get_metabolite_associations(filename):
 			res[rxn_id] = reactants,products
 	return res
 
+def get_metabolite_pairs(rxn_mappings): 
+	metabolite_pairs = {}
+	for rxn in rxn_mappings: 
+		sources = rxn_mappings[rxn][0]
+		targets = rxn_mappings[rxn][1]
+		metabolite_pairs[rxn] = [] 
+		for s in sources: 
+			for t in targets: 
+				metabolite_pairs[rxn].append((s,t)) 
+	return metabolite_pairs
+
 if __name__ == '__main__':
 	print 'HELLO'
 
@@ -189,4 +200,6 @@ if __name__ == '__main__':
 	# print test5
 	# print expression5
 	# print aggregate(test5, expression5, genes5)
-	# print get_metabolite_associations('./RECON1.json')
+	# x = get_metabolite_associations('./RECON1.json')
+	# y = get_metabolite_pairs(x) 
+	# print y 

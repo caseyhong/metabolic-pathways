@@ -1,6 +1,9 @@
 import json 
 from gpr_mapping import * #aggregate, parse_gpr_mapping 
-from geneid_mapping import * #
+from geneid_mapping import * #prepareEntrez,ensemblToEntrez
+from diff_paths import * #difference(x,y), createNetwork
+from make_hypergraph import * #make_hypergraph 
+from igraph import * 
 
 def createGeneIdMapping(): 
 	entrezDict = prepareEntrez()
@@ -42,7 +45,7 @@ def getPatientData(fileName,pid,ensemblEntrezDict):
 	return patientName,data
 
 
-	#List of patients 
+	#List of patients , rxnid, value 
 def patientRxnMappings(RNASeqFileName,patientIds,recon1RxnMappings,ensemblEntrezDict): 
 	patientToRxns = {}
 
@@ -58,43 +61,36 @@ def patientRxnMappings(RNASeqFileName,patientIds,recon1RxnMappings,ensemblEntrez
 
 	return patientToRxns
 
+def generateDigraph(patientToRxns): 
+
+	#Initialize Hypergraph for all patients for tumor type 
+	hg = make_hypergraph()
+
+	for patient in patientToRxns.keys(): 
+
+
+
+
 if __name__ == '__main__':
+
 	ensemblEntrezDict = createGeneIdMapping()
 	recon1RxnMappings = parse_gpr_mapping('./RECON1.json')
+	rxnMetaboliteMapping = get_metabolite_associations('./RECON1.json')
+	metabolite_pairs = get_metabolite_pairs(rxnMetaboliteMapping)
 	patientToRxns = patientRxnMappings('../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv',[1],recon1RxnMappings,ensemblEntrezDict)
-	
-	#print patientToRxns
-
-	# # print mappings[mappings.keys()[9]]
-	# rxn = mappings[mappings.keys()[5]]
-	# pName, pdata = getPatientData('../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv',3,ensemblEntrezDict)
-	# #print pdata.keys()
-	# aggValue = aggregate(rxn,pdata,pdata.keys())
-	# print aggValue
-	#aggregate()
-	#aggregate(mapping,expression,genes)
 
 
-	# 	"""
-	# aggregate returns the biochemical expression value of a reaction given set of genes and corresponding express. value
-	# INPUTS:
-	# 	mapping - individual reaction 
-	# 	expression - dictionary of gene:expressionval 
-	# 	genes - list of genes
-	# OUTPUT: 
-	# 	biochemical exp. value 
-	# """
-
-	#patientDataFile = open('patient_expression.json','w')
-	# patientDataFile.write(pdata)
-	#json.dump(pdata,patientDataFile)
 
 
-# for patient in range(1,numPatients+1): 
-# 			patientData[header[patient]] = {}
-# 			expData.seek(1)
-# 			for row in expData: 
-# 				row = row.split('\t')
-# 				gene = row[0]
-# 				exp = row[patient]
-# 				patientData[header[patient]][gene] = exp 
+
+
+
+
+
+
+
+
+
+
+
+

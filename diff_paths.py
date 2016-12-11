@@ -55,6 +55,7 @@ def createNetwork(metabolites,rxnMap,rxnExpVals):
 	return network
 
 if __name__ == '__main__':
+	print 'diff_paths'
 	#createNetwork(metabolites,rxnMap,rxnExpVals)
 
 
