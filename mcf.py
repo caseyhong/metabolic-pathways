@@ -76,9 +76,12 @@ def generateDigraph(patientToRxns):
 		hg = add_to_HG(hg,rxn_expVal)
 
 	#Invert the weights 
-	hg,inverted_weights = invert_weights(hg)
+	#hg,inverted_weights = invert_weights(hg)
+
+	
 	#Create final digraph
-	dg = convert_to_DG(hg,inverted_weights)
+	#dg = convert_to_DG(hg)
+	dg = convert_to_DG(hg)
 	return dg 
 
 def mcf(lung_file,lung_ids,colon_file,colon_ids):
@@ -96,16 +99,20 @@ def mcf(lung_file,lung_ids,colon_file,colon_ids):
 	metabolite_pairs = get_metabolite_pairs(rxnMetaboliteMapping)
 
 	# For Lung Patients 
+	print 'Processing Lung DG'
 	lung_patient_rxns = patientRxnMappings(lung_file,lung_ids,recon1RxnMappings,ensemblEntrezDict)
 	lung_dg = generateDigraph(lung_patient_rxns)
+	#print 'lungdg_',lung_dg
 	# for e in lung_dg.es: 
 	# 	print e['weight']
 
 	# For Colon Patients 
+	print 'Processing Colon DG'
 	colon_patient_rxns = patientRxnMappings(colon_file,colon_ids,recon1RxnMappings,ensemblEntrezDict)
 	colon_dg = generateDigraph(colon_patient_rxns)
 
 	# Perform graph subtraction 
+	print 'Performing Graph Subtraction'
 	diff_g = difference(lung_dg,colon_dg)
 	return diff_g
 
@@ -118,7 +125,10 @@ def mcf(lung_file,lung_ids,colon_file,colon_ids):
 # the shortest path lengths for given vertices in a matrix
 
 def run_dijkstra(graph):
-	x = graph.shortest_paths_dijkstra(source=None, target=None, weights=None, mode=OUT)
+	print 'Running Bellman Ford on Differential Graph'
+	x = graph.shortest_paths()
+	return x 
+	#graph.shortest_paths_dijkstra(source=None, target=None, weights=None, mode=OUT)
 	#print x 
 
 
@@ -128,6 +138,8 @@ if __name__ == '__main__':
 	colon_file = '../../../../../Desktop/RNASeq_Files/GSE41258_series_matrix_colon.txt'
 
 	diff_g = mcf(lung_file,[1,2],colon_file,[1,2])
+	x = run_dijkstra(diff_g)
+	print x 
 	# print diff_g
 	# for e in diff_g.es: 
 	# 	print e['weight']
