@@ -120,18 +120,19 @@ def get_metabolite_associations(filename):
 	with open(filename) as json_file:
 		data = json.load(json_file)
 		for rxn in data["reactions"]:
-			rxn_id = rxn["id"].encode('ascii')
-			metabolites = rxn["metabolites"]
-			reactants = []
-			products = []
-			for m in metabolites:
-				if metabolites[m] > 0:
-					## a positive stoichiometric number denotes a PRODUCT of the reaction
-					products.append(m.encode('ascii'))
-				else:
-					## a negative stoichiometric number denotes a REACTANT of the reaction
-					reactants.append(m.encode('ascii'))
-			res[rxn_id] = reactants,products
+			if len(rxn["gene_reaction_rule"]) > 0:
+				rxn_id = rxn["id"].encode('ascii')
+				metabolites = rxn["metabolites"]
+				reactants = []
+				products = []
+				for m in metabolites:
+					if metabolites[m] > 0:
+						## a positive stoichiometric number denotes a PRODUCT of the reaction
+						products.append(m.encode('ascii'))
+					else:
+						## a negative stoichiometric number denotes a REACTANT of the reaction
+						reactants.append(m.encode('ascii'))
+				res[rxn_id] = reactants,products
 	return res
 
 def get_metabolite_pairs(rxn_mappings): 
@@ -147,6 +148,8 @@ def get_metabolite_pairs(rxn_mappings):
 
 if __name__ == '__main__':
 	print 'HELLO'
+	mappings = parse_gpr_mapping('./RECON1.json')
+	#print mappings['CSND']
 
 	# genes_of_interest,filtered_probes = parse_recon('./RECON1.json')
 	# open('./recon1_genes.txt', 'w').close() #clears file 

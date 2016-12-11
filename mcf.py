@@ -81,8 +81,8 @@ if __name__ == '__main__':
 	recon1RxnMappings = parse_gpr_mapping('./RECON1.json')
 	rxnMetaboliteMapping = get_metabolite_associations('./RECON1.json')
 	metabolite_pairs = get_metabolite_pairs(rxnMetaboliteMapping)
-	patientToRxns = patientRxnMappings('../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv',[1],recon1RxnMappings,ensemblEntrezDict)
-
+	patientToRxns = patientRxnMappings('../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv',[1,2],recon1RxnMappings,ensemblEntrezDict)
+	dg = generateDigraph(patientToRxns)
 
 
 
