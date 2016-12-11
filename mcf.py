@@ -76,34 +76,37 @@ def generateDigraph(patientToRxns):
 		hg = add_to_HG(hg,rxn_expVal)
 
 	#Invert the weights 
-	hg = invert_weights(hg)
+	hg,inverted_weights = invert_weights(hg)
 	#Create final digraph
-	dg = convert_to_DG(hg)
+	dg = convert_to_DG(hg,inverted_weights)
 	return dg 
 
-def mcf(fileName,cancer_ids,healthy_ids): 
+def mcf(lung_file,lung_ids,colon_file,colon_ids):
 	"""
 	mcf returns the final differential expressed graph for a particular cancer file 
 	INPUTS: 
-		fileName - filename to parse from (needs preprocessing to have certain structure)
-		cancer_ids - list of cancer sample ids 
-		healthy_ids - list of healthy sample ids 
+		lung_file - filename to parse for lung data 
+		lung_ids - index values of which samples to take from file 
+		colon_file - filename to parse for colon data 
+		colon_ids - index values of which samples to take from file 
 	"""
 	ensemblEntrezDict = createGeneIdMapping()
 	recon1RxnMappings = parse_gpr_mapping('./RECON1.json')
 	rxnMetaboliteMapping = get_metabolite_associations('./RECON1.json')
 	metabolite_pairs = get_metabolite_pairs(rxnMetaboliteMapping)
 
-	# For Cancerous Patients 
-	c_patient_rxns = patientRxnMappings(fileName,cancer_ids,recon1RxnMappings,ensemblEntrezDict)
-	cancer_dg = generateDigraph(c_patient_rxns)
+	# For Lung Patients 
+	lung_patient_rxns = patientRxnMappings(lung_file,lung_ids,recon1RxnMappings,ensemblEntrezDict)
+	lung_dg = generateDigraph(lung_patient_rxns)
+	# for e in lung_dg.es: 
+	# 	print e['weight']
 
-	# For Healthy Patients 
-	h_patient_rxns = patientRxnMappings(fileName,healthy_ids,recon1RxnMappings,ensemblEntrezDict)
-	healthy_dg = generateDigraph(h_patient_rxns)
+	# For Colon Patients 
+	colon_patient_rxns = patientRxnMappings(colon_file,colon_ids,recon1RxnMappings,ensemblEntrezDict)
+	colon_dg = generateDigraph(colon_patient_rxns)
 
 	# Perform graph subtraction 
-	diff_g = difference(cancer_dg,healthy_dg)
+	diff_g = difference(lung_dg,colon_dg)
 	return diff_g
 
  
@@ -114,35 +117,26 @@ def mcf(fileName,cancer_ids,healthy_ids):
 # Returns:
 # the shortest path lengths for given vertices in a matrix
 
-#('h2o_c', 'so4_l')
-#('o2_c', 'acac_c'), ('o2_c', 'fum_c'), ('o2_c', 'h_c'), ('h2o_c', 'acac_c'), ('h2o_c', 'fum_c'), ('h2o_c', 'h_c'), ('tym_c', 'acac_c'), ('tym_c', 'fum_c'), ('tym_c', 'h_c')
 def run_dijkstra(graph):
 	x = graph.shortest_paths_dijkstra(source=None, target=None, weights=None, mode=OUT)
 	#print x 
 
-	
 
 
 if __name__ == '__main__':
 	lung_file = '../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv'
-	lung_diff_g = mcf(lung_file,[1,2],[39,44])
+	colon_file = '../../../../../Desktop/RNASeq_Files/GSE41258_series_matrix_colon.txt'
 
-	# colon_file = '../../../../../Desktop/RNASeq_Files/GSE41258_series_matrix_colon.txt'
-	# x = mcf(colon_file,[1],[1])
-	run_dijkstra(lung_diff_g) 
+	diff_g = mcf(lung_file,[1,2],colon_file,[1,2])
+	# print diff_g
+	# for e in diff_g.es: 
+	# 	print e['weight']
+
+	#run_dijkstra(diff_g) 
 
 
 
 
-
-
-	# ensemblEntrezDict = createGeneIdMapping()
-	# recon1RxnMappings = parse_gpr_mapping('./RECON1.json')
-	# rxnMetaboliteMapping = get_metabolite_associations('./RECON1.json')
-	# metabolite_pairs = get_metabolite_pairs(rxnMetaboliteMapping)
-	# patientToRxns = patientRxnMappings('../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv',[1,2],recon1RxnMappings,ensemblEntrezDict)
-	# dg = generateDigraph(patientToRxns)
-	# print dg
 
 
 

@@ -4,8 +4,8 @@ from sklearn.cross_validation import KFold
 from random import uniform
 from sklearn.cross_validation import cross_val_score
 
-## data is N samples x 251 pathweights (corresponding to each unique src-target pair)
-## target is N samples x 1 (takes on value +1 if lung, -1 if kidney)
+## data is N patient samples x 251 pathweights (corresponding to each unique src-target pair)
+## target is N patient samples x 1 (takes on value +1 if lung, -1 if colon)
 
 ## make some dummy data
 data = np.zeros((60, 251))
