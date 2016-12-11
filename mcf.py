@@ -51,7 +51,6 @@ def patientRxnMappings(RNASeqFileName,patientIds,recon1RxnMappings,ensemblEntrez
 
 	for pid in patientIds: 
 		patientName, pdata = getPatientData(RNASeqFileName,pid,ensemblEntrezDict)
-
 		patientToRxns[patientName] = {}
 
 		for rxnId in recon1RxnMappings.keys(): 
@@ -75,14 +74,36 @@ def generateDigraph(patientToRxns):
 	dg = convert_to_DG(hg)
 	return dg 
 
-if __name__ == '__main__':
-
+def mcf(fileName,cancer_ids,healthy_ids): 
 	ensemblEntrezDict = createGeneIdMapping()
 	recon1RxnMappings = parse_gpr_mapping('./RECON1.json')
 	rxnMetaboliteMapping = get_metabolite_associations('./RECON1.json')
 	metabolite_pairs = get_metabolite_pairs(rxnMetaboliteMapping)
-	patientToRxns = patientRxnMappings('../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv',[1,2],recon1RxnMappings,ensemblEntrezDict)
-	dg = generateDigraph(patientToRxns)
+
+	# For Cancerous Patients 
+	c_patient_rxns = patientRxnMappings(fileName,cancer_ids,recon1RxnMappings,ensemblEntrezDict)
+	cancer_dg = generateDigraph(c_patient_rxns)
+
+	# For Healthy Patients 
+	h_patient_rxns = patientRxnMappings(fileName,healthy_ids,recon1RxnMappings,ensemblEntrezDict)
+	healthy_dg = generateDigraph(h_patient_rxns)
+
+	# Perform graph subtraction 
+	diff_g = difference(cancer_dg,healthy_dg)
+	print diff_g
+
+
+
+if __name__ == '__main__':
+	mcf('../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv',[1,2],[39,44])
+
+	# ensemblEntrezDict = createGeneIdMapping()
+	# recon1RxnMappings = parse_gpr_mapping('./RECON1.json')
+	# rxnMetaboliteMapping = get_metabolite_associations('./RECON1.json')
+	# metabolite_pairs = get_metabolite_pairs(rxnMetaboliteMapping)
+	# patientToRxns = patientRxnMappings('../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv',[1,2],recon1RxnMappings,ensemblEntrezDict)
+	# dg = generateDigraph(patientToRxns)
+	# print dg
 
 
 
