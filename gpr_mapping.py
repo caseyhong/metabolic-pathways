@@ -29,6 +29,26 @@ def get_gene_set(filename):
 
 	return relevant_genes, filtered_probes
 
+def gpr_genes():
+	gene_to_reaction = {}
+	with open('./RECON1.json') as json_file:
+		data = json.load(json_file)
+		for reaction in data['reactions']:
+			if len(reaction['gene_reaction_rule']) > 0:
+				rule = reaction['gene_reaction_rule']
+				rule = rule.encode('ascii')
+				items = rule.split()
+				gene_set = set()
+				for i in items:
+					if i not in ['or', 'and']:
+						gene = i.split('_AT')[0]
+						if gene not in gene_to_reaction:
+							gene_to_reaction[gene] = [reaction['id'].encode('ascii')]
+						else:
+							gene_to_reaction[gene].append(reaction['id'].encode('ascii'))
+				# reaction_to_genes[reaction['id'].encode('ascii')] = gene_set
+	return gene_to_reaction
+
 def parse_gpr_mapping(filename):
 	"""
 	INPUT: path to JSON file containing reaction data
