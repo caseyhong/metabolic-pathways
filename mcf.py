@@ -76,12 +76,12 @@ def generateDigraph(patientToRxns):
 		hg = add_to_HG(hg,rxn_expVal)
 
 	#Invert the weights 
-	#hg,inverted_weights = invert_weights(hg)
+	hg,inverted_weights = invert_weights(hg)
 
 	
 	#Create final digraph
 	#dg = convert_to_DG(hg)
-	dg = convert_to_DG(hg)
+	dg = convert_to_DG(hg,inverted_weights)
 	return dg 
 
 def mcf(lung_file,lung_ids,colon_file,colon_ids):
