@@ -12,7 +12,7 @@ def add_to_HG(hypGraph, patient_weight):
 		source,target = met_map[reaction][0],met_map[reaction][1]
 		h_id = hypGraph.get_hyperedge_id(set(target),set(source))
 		old_weight,add_weight = hypGraph.get_hyperedge_weight(h_id),patient_weight[reaction]
-		hypGraph.add_hyperedge(set(target), set(source), weight= old_weight + add_weight) 
+		hypGraph.add_hyperedge(set(target), set(source), weight= old_weight + float(add_weight))
 
 	return hypGraph
 
@@ -23,6 +23,7 @@ def convert_to_DG(HG):
 	
 	# Convert DiGraph to iGraph 
 	graph = ig.Graph.Adjacency(adjMatrix)
+	graph.vs['name'] = vNames
 	return graph
 
 def make_hypergraph(): 
