@@ -4,6 +4,7 @@ from geneid_mapping import * #prepareEntrez,ensemblToEntrez
 from diff_paths import * #difference(x,y), createNetwork
 from make_hypergraph import * #make_hypergraph 
 from igraph import * 
+from colon_preprocessor import * #colon_translator
 
 def createGeneIdMapping(): 
 	entrezDict = prepareEntrez()
@@ -22,6 +23,8 @@ def getPatientData(fileName,pid,ensemblEntrezDict):
 		data - patient's exprsesion val dictionary {Entrez Gene Id: Expression Value}
 	"""
 	data = {}
+	if 'colon' in fileName: 
+		colon_dict = colon_translator()
 
 	with open(fileName,'r+') as expData: 
 		header = expData.readline().split('\t')
@@ -34,6 +37,8 @@ def getPatientData(fileName,pid,ensemblEntrezDict):
 		for row in expData: 
 			row = row.split('\t')
 			gene = row[0]
+			if 'colon' in fileName and gene in colon_dict.keys(): 
+				gene = colon_dict[gene.replace('\"','')]
 			exp = row[pid]
 
 			# Convert from Ensembl -> Entrez Gene Id 
@@ -70,11 +75,20 @@ def generateDigraph(patientToRxns):
 		rxn_expVal = patientToRxns[patient]
 		hg = add_to_HG(hg,rxn_expVal)
 
+	#Invert the weights 
+	hg = invert_weights(hg)
 	#Create final digraph
 	dg = convert_to_DG(hg)
 	return dg 
 
 def mcf(fileName,cancer_ids,healthy_ids): 
+	"""
+	mcf returns the final differential expressed graph for a particular cancer file 
+	INPUTS: 
+		fileName - filename to parse from (needs preprocessing to have certain structure)
+		cancer_ids - list of cancer sample ids 
+		healthy_ids - list of healthy sample ids 
+	"""
 	ensemblEntrezDict = createGeneIdMapping()
 	recon1RxnMappings = parse_gpr_mapping('./RECON1.json')
 	rxnMetaboliteMapping = get_metabolite_associations('./RECON1.json')
@@ -90,12 +104,37 @@ def mcf(fileName,cancer_ids,healthy_ids):
 
 	# Perform graph subtraction 
 	diff_g = difference(cancer_dg,healthy_dg)
-	print diff_g
+	return diff_g
 
+ 
+# source - a list containing the source vertex IDs which should be included in the result. If None, all vertices will be considered.
+# target - a list containing the target vertex IDs which should be included in the result. If None, all vertices will be considered.
+# weights - a list containing the edge weights. It can also be an attribute name (edge weights are retrieved from the given attribute) or None (all edges have equal weight).
+# mode - the type of shortest paths to be used for the calculation in directed graphs. OUT means only outgoing, IN means only incoming paths. ALL means to consider the directed graph as an undirected one.
+# Returns:
+# the shortest path lengths for given vertices in a matrix
+
+#('h2o_c', 'so4_l')
+#('o2_c', 'acac_c'), ('o2_c', 'fum_c'), ('o2_c', 'h_c'), ('h2o_c', 'acac_c'), ('h2o_c', 'fum_c'), ('h2o_c', 'h_c'), ('tym_c', 'acac_c'), ('tym_c', 'fum_c'), ('tym_c', 'h_c')
+def run_dijkstra(graph):
+	x = graph.shortest_paths_dijkstra(source=None, target=None, weights=None, mode=OUT)
+	#print x 
+
+	
 
 
 if __name__ == '__main__':
-	mcf('../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv',[1,2],[39,44])
+	lung_file = '../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv'
+	lung_diff_g = mcf(lung_file,[1,2],[39,44])
+
+	# colon_file = '../../../../../Desktop/RNASeq_Files/GSE41258_series_matrix_colon.txt'
+	# x = mcf(colon_file,[1],[1])
+	run_dijkstra(lung_diff_g) 
+
+
+
+
+
 
 	# ensemblEntrezDict = createGeneIdMapping()
 	# recon1RxnMappings = parse_gpr_mapping('./RECON1.json')
