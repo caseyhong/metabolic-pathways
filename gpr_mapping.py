@@ -65,13 +65,13 @@ def parse_gpr_mapping(filename):
 				hashed_rule = []
 				for word in words:
 					if word[0] != '(' and word[-1] != ')':
-						h = word.replace('_','ZZZZZZ')
+						h = word.replace('_','u')
 						hashed_rule.append(h.encode('ascii'))
 					elif word[0] == '(':
-						h = word.replace('_','ZZZZZZ')
+						h = word.replace('_','u')
 						hashed_rule.append(h.encode('ascii'))
 					else:
-						h = word.replace('_','ZZZZZZ')
+						h = word.replace('_','u')
 						hashed_rule.append(h.encode('ascii'))
 						hashed_rule.append(')')
 				hashed = ''.join(hashed_rule)
@@ -105,6 +105,8 @@ def aggregate(mapping, expression, genes):
 		if i == 0:
 			if mapping[i] in genes:
 				s = expression[mapping[i]]
+			elif mapping[i] not in genes and type(mapping[i]) is not list: 
+				s = 0 
 			else:
 				s = aggregate(mapping[i], expression, genes)
 
@@ -118,6 +120,8 @@ def aggregate(mapping, expression, genes):
 					s = min(s, expression[next])
 				else:
 					s = max(s, expression[next])
+			elif next not in genes and type(next) is not list: 
+				s = 0 
 			else:
 				if operator == '+':
 					s = min(s, aggregate(next, expression, genes))
@@ -136,21 +140,37 @@ def get_metabolite_associations(filename):
 	with open(filename) as json_file:
 		data = json.load(json_file)
 		for rxn in data["reactions"]:
-			rxn_id = rxn["id"].encode('ascii')
-			metabolites = rxn["metabolites"]
-			reactants = []
-			products = []
-			for m in metabolites:
-				if metabolites[m] > 0:
-					## a positive stoichiometric number denotes a PRODUCT of the reaction
-					products.append(m.encode('ascii'))
-				else:
-					## a negative stoichiometric number denotes a REACTANT of the reaction
-					reactants.append(m.encode('ascii'))
-			res[rxn_id] = reactants,products
+			if len(rxn["gene_reaction_rule"]) > 0:
+				rxn_id = rxn["id"].encode('ascii')
+				metabolites = rxn["metabolites"]
+				reactants = []
+				products = []
+				for m in metabolites:
+					if metabolites[m] > 0:
+						## a positive stoichiometric number denotes a PRODUCT of the reaction
+						products.append(m.encode('ascii'))
+					else:
+						## a negative stoichiometric number denotes a REACTANT of the reaction
+						reactants.append(m.encode('ascii'))
+				res[rxn_id] = reactants,products
 	return res
 
+def get_metabolite_pairs(rxn_mappings): 
+	metabolite_pairs = {}
+	for rxn in rxn_mappings: 
+		sources = rxn_mappings[rxn][0]
+		targets = rxn_mappings[rxn][1]
+		metabolite_pairs[rxn] = [] 
+		for s in sources: 
+			for t in targets: 
+				metabolite_pairs[rxn].append((s,t)) 
+	return metabolite_pairs
+
 if __name__ == '__main__':
+	print 'HELLO'
+	mappings = parse_gpr_mapping('./RECON1.json')
+	#print mappings['CSND']
+
 	# genes_of_interest,filtered_probes = parse_recon('./RECON1.json')
 	# open('./recon1_genes.txt', 'w').close() #clears file 
 	# output = open('./recon1_genes.txt','r+')
@@ -203,5 +223,6 @@ if __name__ == '__main__':
 	# print test5
 	# print expression5
 	# print aggregate(test5, expression5, genes5)
-
-	print get_metabolite_associations('./RECON1.json')
+	# x = get_metabolite_associations('./RECON1.json')
+	# y = get_metabolite_pairs(x) 
+	# print y 

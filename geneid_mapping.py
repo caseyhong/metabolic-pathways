@@ -1,7 +1,7 @@
 #Generates dictionary for entrez ids in Recon1 
 def prepareEntrez(): 
 	entrezDict = {}
-	entrez = open('recon1_entrez_tv.txt','r+')
+	entrez = open('recon1_files/recon1_entrez_tv.txt','r+')
 	for eid in entrez:
 		eid = eid.replace('\n','')
 		if eid not in entrezDict.keys(): 
@@ -16,7 +16,7 @@ def ensemblToEntrez(entrezDict):
 	#Generates the entrez w/o transcript version  -> ensembl 
 	#Because BioMart does not provide 
 	entrezEnsemblDict = {}
-	ee = open('recon1_entrez_ensembl.txt','r+')
+	ee = open('recon1_files/recon1_entrez_ensembl.txt','r+')
 	for line in ee: 
 		line = line.replace('\n','')
 		ensembl,entrez = line.split(',')
@@ -42,7 +42,7 @@ def ensemblToEntrez(entrezDict):
 # To confirm recon1 json and recon1 entrez map
 def mapToEntrez(entrezDict): 
 	idMap = {} # key: BIGGID, value: entrezid 
-	reconGenes = open('recon1_json_genes.txt','r+')
+	reconGenes = open('recon1_files/recon1_json_genes.txt','r+')
 	reconGenes = reconGenes.readline().split(',')
 	for rGene in reconGenes:
 		rGene = rGene.upper()
