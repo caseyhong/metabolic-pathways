@@ -66,10 +66,14 @@ def generateDigraph(patientToRxns):
 	#Initialize Hypergraph for all patients for tumor type 
 	hg = make_hypergraph()
 
+	#Add edge weights for each patient 
 	for patient in patientToRxns.keys(): 
+		rxn_expVal = patientToRxns[patient]
+		hg = add_to_HG(hg,rxn_expVal)
 
-
-
+	#Create final digraph
+	dg = convert_to_DG(hg)
+	return dg 
 
 if __name__ == '__main__':
 
