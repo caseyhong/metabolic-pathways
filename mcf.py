@@ -117,34 +117,47 @@ def mcf(lung_file,train_lung_ids,test_lung_ids,colon_file,train_colon_ids,test_c
 	print 'Performing Graph Subtraction'
 	diff_g = difference(lung_dg,colon_dg)
 
+	# Feature generation, shortest paths 
+	print 'Performing Feature Generation'
+	shortest_paths = generate_features(diff_g)
+
 	#################### TESTING ####################
 
 	print 'Testing Lung Patients'
 	lung_test = {} 
+
+	# For each lung test sample, create key value pair for sample to patient feature mapping dict 
 	for lung_test_id in test_lung_ids: 
-		test_lung_patient_rxns = patientRxnMappings(lung_file,lung_test_id,recon1RxnMappings,ensemblEntrezDict)
+		test_lung_patient_rxns = patientRxnMappings(lung_file,[lung_test_id],recon1RxnMappings,ensemblEntrezDict)
 		test_lung_dg = generateDigraph(test_lung_patient_rxns)
+		# Find mapping for indv patient from each path to total weight 
+		path_to_weight = test_patient_feature_values(shortest_paths,test_lung_dg)
+		print 'Path To Weight: ',path_to_weight
+		lung_test[lung_test_id] = path_to_weight
 
-	
+	print 'Testing Colon Patients'
+	colon_test = {}
+	for colon_test_id in test_colon_ids: 
+		test_colon_patient_rxns = patientRxnMappings(colon_file,[colon_test_id],recon1RxnMappings,ensemblEntrezDict)
+		test_colon_dg = generateDigraph(test_colon_patient_rxns)
+		# Find mapping for indv patient from each path to total weight 
+		path_to_weight = test_patient_feature_values(shortest_paths,test_colon_dg)
+		colon_test[colon_test_id] = path_to_weight
 
+	return diff_g, lung_test, colon_test
 
-	#print diff_g
-	return diff_g
+def test_patient_feature_values(shortest_paths,graph):
+	# To be called to generate a individual patient's feature values 
+	path_to_weight = {} 
+	for (s,t) in shortest_paths: 
+		short_path = shortest_paths[(s,t)]
+		path_weight = 0 
+		for i in range(len(short_path)-1): 
+			path_weight += graph[short_path[i], short_path[i+1]]
+		path_to_weight[(s,t)] = path_weight
 
-def test(shortest_paths,patient_data):
-	patient_test_results = {} 
+	return path_to_weight
 
-	for patient in patient_data: 
-		patient_test_results[patient] = {}
-		for rxn in shortest_paths:
-			path = shortest_paths[rxn]
-			p_total = [path[i:i+2][0],path[i:i+2][1] for i in range(len(path)-1) ]
-			:
-				edge = 
-				(i,i+1) 
-
-
-			patient_test_results[patient][rxn]
 
 
 
@@ -174,17 +187,8 @@ def generate_features(diff_graph):
 		for target in targets: 
 			shortest_path = diff_graph.get_shortest_paths(seed, to=target, weights='weight', mode=OUT, output="vpath")	
 			sp = [vNames[i] for i in shortest_path[0]]
-			print sp
-			#sp = [vNames[shortest_path[0][i]] for i in shortest_path[0]]
-			# shortest_paths[(seed,target)] = sp 
-			# print "For seed: "+ seed + " target: "+target
-			# print shortest_paths[(seed,target)]
-			# print '###########################################'
+			shortest_paths[(seed,target)] = sp 
 	return shortest_paths
-
-		#shortest_paths = run_dijkstra(diff_graph,seed,targets)
-		
-
 
 def run_dijkstra(graph,source,targets):
 	print 'Running Bellman Ford on Differential Graph'
@@ -201,7 +205,7 @@ if __name__ == '__main__':
 	lung_30 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
 	lung_50 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52]
 	diff_g = mcf(lung_file,lung_30[:2],lung_30[-2:],colon_file,colon_30[:2],colon_30[-2:])
-	generate_features(diff_g)
+	
 	#x = run_dijkstra(diff_g)
 
 
