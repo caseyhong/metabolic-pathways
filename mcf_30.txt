@@ -1,0 +1,224 @@
+For seed: o2_c+, shortest path is:
+[[377.6136974000001, 0.0, 0.0, 0.0, 25.3286803, 1353.45975, 0.0, 0.0, 0.0, 0.0840474, 292.72035479999994, 292.72035479999994]]
+targets: acac_c,fum_c,h_c,co2_c,am6sa_c,3mgcoa_m,pi_m,adp_m,h_m,h_e,lpchol_hs_e,Rtotal2_e
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: h2o_c+, shortest path is:
+[[377.6136974000001, 0.0, 0.0, 0.0840474, 292.72035479999994, 292.72035479999994, 346.8391, 0.0, 0.0, 0.0, 164.6092537, 0.0, 25.3286803, 1353.45975, 0.0, 0.0, 0.0, 0.0, 145.07901669999998, 2013.42042, 1603.09557, 0.0, 346.8391, 0.0, 0.0, inf, 358.7081744819908, inf, inf]]
+targets: acac_c,fum_c,h_c,h_e,lpchol_hs_e,Rtotal2_e,pail4p_hs_c,adp_c,h_c,co2_c,hista_c,co2_c,am6sa_c,3mgcoa_m,pi_m,adp_m,h_m,co2_c,tym_c,5mta_c,sprm_c,h_c,pail4p_hs_c,adp_c,h_c,acgam_l,h_l,ksi_deg8_l,so4_l
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: ksi_pre15_g+, shortest path is:
+[[306.0295100000001, 1307.1567499999999, 2263.01026]]
+targets: h_g,cmp_g,gd3_hs_g
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: na1_c+, shortest path is:
+[[27.418695800000002, 27.418695800000002, 590.8954458]]
+targets: ppi_c,amp_c,arachdcoa_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: nrvnc_c+, shortest path is:
+[[146.39773999999997, 146.39773999999997, 709.8744899999999]]
+targets: ppi_c,amp_c,arachdcoa_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: tym_c+, shortest path is:
+[[771.4330874000001, 393.81939, 393.81939, 393.81939, 419.1480703]]
+targets: acac_c,fum_c,h_c,co2_c,am6sa_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: o2_r+, shortest path is:
+[[3.53174977, 6.03536244, 279.99341]]
+targets: nadp_r,h2o_r,xol25oh_r
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: udpgal_g+, shortest path is:
+[[inf, 673.9892844819908, inf, inf]]
+targets: acgam_l,h_l,ksi_deg8_l,so4_l
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: 4nph_c+, shortest path is:
+[[0.0840474, 292.72035479999994, 292.72035479999994]]
+targets: h_e,lpchol_hs_e,Rtotal2_e
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: ametam_c+, shortest path is:
+[[3438.5006199999993, 807.47492, 3438.5006199999993, 807.47492]]
+targets: ptrc_c,co2_c,ptrc_c,co2_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: pail_hs_c+, shortest path is:
+[[652.47209, 305.63299000000006, 305.63299000000006, 0.0, 0.0, 305.63299000000006, 652.47209, 305.63299000000006, 305.63299000000006]]
+targets: pail4p_hs_c,adp_c,h_c,udp_c,acgpail_hs_c,h_c,pail4p_hs_c,adp_c,h_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: h_m+, shortest path is:
+[[405.0120685200002, 2703.5960377199995, 377.5296500000001]]
+targets: h2o2_x,1p2cbxl_x,h_x
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: galgluside_hs_g+, shortest path is:
+[[inf, 586.2899434819908, inf, inf]]
+targets: acgam_l,h_l,ksi_deg8_l,so4_l
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: atp_c+, shortest path is:
+[[0.0, 971.4204900000001, 0.0, 0.0, 0.0, 875.1169000000001, 0.0, 38.757905380000004, 0.0, 0.0, 391.82899000000003, 0.0]]
+targets: h_c,fdp_c,adp_c,nadh_c,h_c,mercppyr_c,f6p_c,ac_c,coa_c,h_c,3mob_m,glu__L_m
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: carn_c+, shortest path is:
+[[5.400958919999999, 170.01021262, 2018.82137892, 1608.49652892, 5.400958919999999]]
+targets: co2_c,hista_c,5mta_c,sprm_c,h_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: estrone_c+, shortest path is:
+[[2774.79279, 1021.0794198999997, 525.50676]]
+targets: cs_b_pre5_g,pap_g,h_g
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: h_r+, shortest path is:
+[[4.64006730320485, 8.17181707320485, 279.99341]]
+targets: nadp_r,h2o_r,xol25oh_r
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: n2m2nm_c+, shortest path is:
+[[inf, 2229.7193044819905, inf, inf]]
+targets: acgam_l,h_l,ksi_deg8_l,so4_l
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: ppa_c+, shortest path is:
+[[0.0, 0.0, 875.1169000000001, 0.0, 38.757905380000004, 0.0, 0.0]]
+targets: nadh_c,h_c,mercppyr_c,f6p_c,ac_c,coa_c,h_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: gly_m+, shortest path is:
+[[517.6858289200002, 2816.2697981199995, 490.2034104000001]]
+targets: h2o2_x,1p2cbxl_x,h_x
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: coa_c+, shortest path is:
+[[0.0, 0.0, 875.1169000000001, 0.0, 38.757905380000004, 0.0, 0.0]]
+targets: nadh_c,h_c,mercppyr_c,f6p_c,ac_c,coa_c,h_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: pydx_c+, shortest path is:
+[[1528.07618, 174.61643000000004, 174.61643000000004, 174.61643000000004]]
+targets: 3mgcoa_m,pi_m,adp_m,h_m
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: nadph_r+, shortest path is:
+[[4.64006730320485, 8.17181707320485, 279.99341]]
+targets: nadp_r,h2o_r,xol25oh_r
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: chsterol_r+, shortest path is:
+[[10.602375000000004, 10.602375000000004, 279.99341]]
+targets: nadp_r,h2o_r,xol25oh_r
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: crn_c+, shortest path is:
+[[0.0, 0.0, 563.4767499999999]]
+targets: ppi_c,amp_c,arachdcoa_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: h2o_m+, shortest path is:
+[[74.92841190000001, 55.34436928, 16.586463900000005, 16.586463900000005, 16.586463900000005]]
+targets: asp__L_c,ac_c,selcys_c,2obut_c,nh4_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: Ndmelys_n+, shortest path is:
+[[inf, inf, inf]]
+targets: gly_x,h2o2_x,fald_x
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: vacccoa_c+, shortest path is:
+[[0.0, 0.0, 563.4767499999999]]
+targets: ppi_c,amp_c,arachdcoa_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: paps_g+, shortest path is:
+[[53.199270999999996, 53.199270999999996, 88.142040664765, 53.199270999999996, 2455.438091, 390.3877180000001, 584.6735454819908, inf, inf]]
+targets: pap_g,h_g,ksi_pre20_g,h_g,hs_pre9_g,udp_g,h_l,so4_l,cs_e_deg5_l
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: amet_n+, shortest path is:
+[[inf, inf, inf]]
+targets: gly_x,h2o2_x,fald_x
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: paps_c+, shortest path is:
+[[1401.13314, 1021.0794198999997, 525.50676]]
+targets: cs_b_pre5_g,pap_g,h_g
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: nadph_c+, shortest path is:
+[[0.0840474, 292.72035479999994, 292.72035479999994]]
+targets: h_e,lpchol_hs_e,Rtotal2_e
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: hs_pre15_g+, shortest path is:
+[[536.8546245819907, inf, inf]]
+targets: h_l,so4_l,cs_e_deg5_l
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: uacgam_c+, shortest path is:
+[[188.86712000000003, 0.0, 188.86712000000003]]
+targets: udp_c,acgpail_hs_c,h_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: succoa_m+, shortest path is:
+[[1064.7837487200002, 3363.36771792, 1037.3013302000002]]
+targets: h2o2_x,1p2cbxl_x,h_x
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: uacgam_g+, shortest path is:
+[[0.0, 345.72385999999995, 1301.57737]]
+targets: h_g,cmp_g,gd3_hs_g
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: hs_pre14_g+, shortest path is:
+[[122.318457, 2524.557277, 820.5913170000001]]
+targets: h_g,hs_pre9_g,udp_g
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: fru_c+, shortest path is:
+[[0.0, 971.4204900000001, 0.0]]
+targets: h_c,fdp_c,adp_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: nadp_m+, shortest path is:
+[[309.34427660000006, 1770.5616320000004, 294.16917000000007, 274.5851273800001]]
+targets: gly_m,4tmeabut_m,asp__L_c,ac_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: co2_m+, shortest path is:
+[[inf, inf, inf]]
+targets: selcys_c,2obut_c,nh4_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: man6p_c+, shortest path is:
+[[1187.22856, 888.5089, 1187.22856, 888.5089]]
+targets: gdpmann_c,pi_c,gdpmann_c,pi_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: ptrc_c+, shortest path is:
+[[0.0, 0.0, 0.0, 0.0]]
+targets: ptrc_c,co2_c,ptrc_c,co2_c
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: udpg_c+, shortest path is:
+[[105.3313524, 397.9676597999999, 397.9676597999999]]
+targets: h_e,lpchol_hs_e,Rtotal2_e
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: ksi_pre19_g+, shortest path is:
+[[88.142040664765, 88.142040664765, 88.142040664765]]
+targets: pap_g,h_g,ksi_pre20_g
+###########################################
+Running Bellman Ford on Differential Graph
+For seed: h_c+, shortest path is:
+[[0.0, 866.2677709999999, 0.0840474, 292.72035479999994, 292.72035479999994]]
+targets: pi_c,dha_c,h_e,lpchol_hs_e,Rtotal2_e
+###########################################

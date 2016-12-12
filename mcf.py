@@ -5,6 +5,7 @@ from diff_paths import * #difference(x,y), createNetwork
 from make_hypergraph import * #make_hypergraph 
 from igraph import * 
 from colon_preprocessor import * #colon_translator
+from parse_kegg_genes import * 
 
 def createGeneIdMapping(): 
 	entrezDict = prepareEntrez()
@@ -76,12 +77,12 @@ def generateDigraph(patientToRxns):
 		hg = add_to_HG(hg,rxn_expVal)
 
 	#Invert the weights 
-	hg,inverted_weights = invert_weights(hg)
+	dg,inverted_weights = invert_weights(hg)
 	#print inverted_weights
 	
 	#Create final digraph
 	#dg = convert_to_DG(hg)
-	dg = convert_to_DG(hg,inverted_weights)
+	#dg = convert_to_DG(hg,inverted_weights)
 	return dg 
 
 def mcf(lung_file,lung_ids,colon_file,colon_ids):
@@ -122,29 +123,41 @@ def mcf(lung_file,lung_ids,colon_file,colon_ids):
 # Returns:
 # the shortest path lengths for given vertices in a matrix
 
-def run_dijkstra(graph):
+def generate_features(diff_graph): 
+	print 'Generating features for differential graph'
+	src_target = parse()
+	seeds = [] 
+	for s in src_target: 
+		if len(src_target[s]) >= 3: 
+			seeds.append(s)
+
+	for seed in seeds: 
+		targets = src_target[seed]
+		shortest_paths = run_dijkstra(diff_graph,seed,targets)
+		print "For seed: "+ seed +"+, shortest path is: "
+		print shortest_paths
+		print 'targets: '+ ','.join(targets)
+		print '###########################################'
+
+
+def run_dijkstra(graph,source,targets):
 	print 'Running Bellman Ford on Differential Graph'
-	# x = graph.shortest_paths()
-	# return x 
-	x = graph.shortest_paths_dijkstra(source=None, target=None, weights='weight', mode=OUT)
-	#print x 
+	x = graph.shortest_paths_dijkstra(source=source, target=targets, weights='weight', mode=OUT)
 	return x 
-	#print x 
 
 
 
 if __name__ == '__main__':
 	lung_file = '../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv'
 	colon_file = '../../../../../Desktop/RNASeq_Files/GSE41258_series_matrix_colon.txt'
+	colon_30 = [26, 28, 30, 31, 33, 35, 37, 39, 40, 42, 43, 45, 47, 48, 49, 51, 54, 57, 59, 61, 62, 64, 67, 69, 73, 75, 77, 79, 81, 84]
+	colon_50 = [26, 28, 30, 31, 33, 35, 37, 39, 40, 42, 43, 45, 47, 48, 49, 51, 54, 57, 59, 61, 62, 64, 67, 69, 73, 75, 77, 79, 81, 84, 86, 87, 89, 90, 91, 93, 94, 96, 97, 98, 99, 102, 104, 107, 108, 109, 110, 112, 114, 115]
+	lung_30 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+	lung_50 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52]
+	diff_g = mcf(lung_file,colon_30,colon_file,lung_30)
+	generate_features(diff_g)
+	#x = run_dijkstra(diff_g)
 
-	diff_g = mcf(lung_file,[1,2,3,4,5],colon_file,[1,2,3,4,5])
-	x = run_dijkstra(diff_g)
-	#print x 
-	# print diff_g
-	# for e in diff_g.es: 
-	# 	print e['weight']
-
-	#run_dijkstra(diff_g) 
 
 
 

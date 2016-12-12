@@ -71,13 +71,14 @@ def get_candidate_nodes(candidate_reactions, met_associations):
 	# 			candidate_tar.append(tar)
 	return candidate_pairs
 
-if __name__ == '__main__':
+
+def parse(): 
 	ptg = path_to_genes()
 	candidates = get_src_tar_genes(ptg)
 	candidate_reactions = get_reactions_of_interest(candidates, GPR.gpr_genes())
 	candidate_pairs = get_candidate_nodes(candidate_reactions, GPR.get_metabolite_associations('./RECON1.json'))
-	print len(candidate_pairs)
-	print candidate_pairs
+	#print len(candidate_pairs)
+	#print candidate_pairs
 	src_tar = {}
 	for pair in candidate_pairs:
 		src = pair[0]
@@ -86,10 +87,31 @@ if __name__ == '__main__':
 			src_tar[src] = [tar]
 		else:
 			src_tar[src].append(tar)
-	c = 0
-	for s in src_tar:
-		if len(src_tar[s]) >= 3:
-			c += 1
-			print 'src: ' + s
-			print 'targets: ' + str(src_tar[s])
-	print c
+	#c = 0
+	return src_tar
+	# for s in src_tar:
+	# 	if len(src_tar[s]) >= 3:
+	# 		#c += 1
+	# 		print 'src: ' + s
+	# 		print 'targets: ' + str(src_tar[s])
+	#print c
+
+
+if __name__ == '__main__':
+	src_tar = parse()
+	print src_tar
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	

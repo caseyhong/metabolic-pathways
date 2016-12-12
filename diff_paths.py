@@ -25,8 +25,8 @@ def difference(x,y):
 
 	diffG = Graph(directed=True) 
 	diffG.add_vertices(list(diff_vertex_set))
-	print edges
-	print len(edges)
+	# print edges
+	# print len(edges)
 	for e in edges: 
 		diffG.add_edge(e[0],e[1],weight=edges[e])
 
