@@ -77,7 +77,7 @@ def generateDigraph(patientToRxns):
 
 	#Invert the weights 
 	hg,inverted_weights = invert_weights(hg)
-
+	#print inverted_weights
 	
 	#Create final digraph
 	#dg = convert_to_DG(hg)
@@ -102,9 +102,6 @@ def mcf(lung_file,lung_ids,colon_file,colon_ids):
 	print 'Processing Lung DG'
 	lung_patient_rxns = patientRxnMappings(lung_file,lung_ids,recon1RxnMappings,ensemblEntrezDict)
 	lung_dg = generateDigraph(lung_patient_rxns)
-	#print 'lungdg_',lung_dg
-	# for e in lung_dg.es: 
-	# 	print e['weight']
 
 	# For Colon Patients 
 	print 'Processing Colon DG'
@@ -114,6 +111,7 @@ def mcf(lung_file,lung_ids,colon_file,colon_ids):
 	# Perform graph subtraction 
 	print 'Performing Graph Subtraction'
 	diff_g = difference(lung_dg,colon_dg)
+	#print diff_g
 	return diff_g
 
  
@@ -126,9 +124,11 @@ def mcf(lung_file,lung_ids,colon_file,colon_ids):
 
 def run_dijkstra(graph):
 	print 'Running Bellman Ford on Differential Graph'
-	x = graph.shortest_paths()
+	# x = graph.shortest_paths()
+	# return x 
+	x = graph.shortest_paths_dijkstra(source=None, target=None, weights='weight', mode=OUT)
+	#print x 
 	return x 
-	#graph.shortest_paths_dijkstra(source=None, target=None, weights=None, mode=OUT)
 	#print x 
 
 
@@ -137,9 +137,9 @@ if __name__ == '__main__':
 	lung_file = '../../../../../Desktop/RNASeq_Files/GSE81089_FPKM_cufflinks_nslc.tsv'
 	colon_file = '../../../../../Desktop/RNASeq_Files/GSE41258_series_matrix_colon.txt'
 
-	diff_g = mcf(lung_file,[1,2],colon_file,[1,2])
+	diff_g = mcf(lung_file,[1,2,3,4,5],colon_file,[1,2,3,4,5])
 	x = run_dijkstra(diff_g)
-	print x 
+	#print x 
 	# print diff_g
 	# for e in diff_g.es: 
 	# 	print e['weight']
