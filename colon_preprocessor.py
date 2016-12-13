@@ -7,3 +7,7 @@ def colon_translator():
 		probe = probe.replace('\n','')
 		translator[probe] = ensembl
 	return translator
+
+# x= colon_translator()
+# print x 
+	
