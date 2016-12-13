@@ -6,6 +6,7 @@ from make_hypergraph import * #make_hypergraph
 from igraph import * 
 from colon_preprocessor import * #colon_translator
 from parse_kegg_genes import * 
+import pickle 
 
 def createGeneIdMapping(): 
 	entrezDict = prepareEntrez()
@@ -183,7 +184,7 @@ def mcf(lung_file,train_lung_ids,test_lung_ids,colon_file,train_colon_ids,test_c
 		test_lung_dg = generateDigraph(test_lung_patient_rxns)
 		# Find mapping for indv patient from each path to total weight 
 		path_to_weight = test_patient_feature_values(shortest_paths,test_lung_dg)
-		print 'Path To Weight: ',path_to_weight
+		#print 'Path To Weight: ',path_to_weight
 		lung_test[lung_test_id] = path_to_weight
 
 	print 'Testing Colon Patients'
@@ -206,7 +207,34 @@ if __name__ == '__main__':
 	colon_50 = [26, 28, 30, 31, 33, 35, 37, 39, 40, 42, 43, 45, 47, 48, 49, 51, 54, 57, 59, 61, 62, 64, 67, 69, 73, 75, 77, 79, 81, 84, 86, 87, 89, 90, 91, 93, 94, 96, 97, 98, 99, 102, 104, 107, 108, 109, 110, 112, 114, 115]
 	lung_30 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
 	lung_50 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52]
-	diff_g, lung_test, colon_test = mcf(lung_file,lung_30[:2],lung_30[-2:],colon_file,colon_30[:2],colon_30[-2:])
+	diff_g, lung_test, colon_test = mcf(lung_file,lung_50[:40],lung_30[-10:],colon_file,colon_50[:40],colon_30[-10:])
+
+	with open('diff_g_output.pkl','wb') as dg: 
+		pickle.dump(diff_g,dg,pickle.HIGHEST_PROTOCOL)
+
+	with open('lung_output.pkl','wb') as lo: 
+		pickle.dump(lung_test,lo,pickle.HIGHEST_PROTOCOL)
+
+	with open('colon_output.pkl','wb') as co: 
+		pickle.dump(colon_test,co,pickle.HIGHEST_PROTOCOL)
+
+	print 'DONE!'
+
+
+
+
+	# def save_obj(obj, name ):
+ #    with open('obj/'+ name + '.pkl', 'wb') as f:
+ #        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+
+	# lung_file = open('lung_output.txt','w')
+	# for lung_id in lung_test: 
+	# 	path_to_weight = lung_test[lung_id]
+	# 	for path in path_to_weight: 
+	# 		lung_file.write(path)
+	# lung_file.write(lung_test)
+
+
 	
 	#x = run_dijkstra(diff_g)
 
