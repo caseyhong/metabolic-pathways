@@ -160,7 +160,7 @@ def generate_features(diff_graph):
 	src_target = parse()
 	seeds = [] 
 	for s in src_target: 
-		if len(src_target[s]) >= 5: 
+		if len(src_target[s]) >= 3: 
 			seeds.append(s)
 
 	shortest_paths={}
@@ -229,6 +229,7 @@ def mcf(lung_file,train_lung_ids,test_lung_ids,colon_file,train_colon_ids,test_c
 
 	# For each lung test sample, create key value pair for sample to patient feature mapping dict 
 	for lung_test_id in test_lung_ids: 
+		print lung_test_id
 		test_lung_patient_rxns = patientRxnMappings(lung_file,[lung_test_id],recon1RxnMappings,ensemblEntrezDict)
 		test_lung_dg = generateDigraph(test_lung_patient_rxns)
 		# Find mapping for indv patient from each path to total weight 
@@ -238,6 +239,7 @@ def mcf(lung_file,train_lung_ids,test_lung_ids,colon_file,train_colon_ids,test_c
 	print 'Testing Colon Patients'
 	colon_test = {}
 	for colon_test_id in test_colon_ids: 
+		print colon_test_id 
 		test_colon_patient_rxns = patientRxnMappings(colon_file,[colon_test_id],recon1RxnMappings,ensemblEntrezDict)
 		test_colon_dg = generateDigraph(test_colon_patient_rxns)
 		# Find mapping for indv patient from each path to total weight 
@@ -253,9 +255,11 @@ if __name__ == '__main__':
 	colon_file = '../../../../../Desktop/RNASeq_Files/GSE41258_series_matrix_colon.txt'
 	colon_30 = [26, 28, 30, 31, 33, 35, 37, 39, 40, 42, 43, 45, 47, 48, 49, 51, 54, 57, 59, 61, 62, 64, 67, 69, 73, 75, 77, 79, 81, 84]
 	colon_50 = [26, 28, 30, 31, 33, 35, 37, 39, 40, 42, 43, 45, 47, 48, 49, 51, 54, 57, 59, 61, 62, 64, 67, 69, 73, 75, 77, 79, 81, 84, 86, 87, 89, 90, 91, 93, 94, 96, 97, 98, 99, 102, 104, 107, 108, 109, 110, 112, 114, 115]
+	colon_150 = [26, 28, 30, 31, 33, 35, 37, 39, 40, 42, 43, 45, 47, 48, 49, 51, 54, 57, 59, 61, 62, 64, 67, 69, 73, 75, 77, 79, 81, 84, 86, 87, 89, 90, 91, 93, 94, 96, 97, 98, 99, 102, 104, 107, 108, 109, 110, 112, 114, 115, 116, 118, 119, 120, 121, 122, 123, 124, 128, 130, 131, 132, 133, 134, 135, 136, 137, 139, 142, 144, 146, 147, 149, 150, 151, 152, 157, 162, 163, 164, 165, 168, 169, 170, 174, 178, 179, 184, 185, 186, 190, 191, 192, 194, 197, 201, 202, 209, 211, 212, 213, 215, 217, 218, 222, 223, 225, 230, 232, 233, 234, 236, 248, 249, 250, 251, 252, 254, 255, 256, 258, 259, 261, 262, 264, 265, 266, 267, 269, 270, 272, 276, 281, 284, 285, 287, 288, 290, 292, 293, 294, 295, 297, 299, 300, 301, 302, 303, 306, 307]
 	lung_30 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
 	lung_50 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52]
-	diff_g, lung_test, colon_test = mcf(lung_file,lung_50,lung_50,colon_file,colon_50,colon_50)
+	lung_150 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 58, 60, 61, 63, 64, 65, 66, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 85, 86, 88, 89, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 104, 105, 106, 107, 109, 110, 112, 113, 114, 115, 116, 117, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 131, 133, 134, 135, 136, 137, 139, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 160, 161, 162, 163, 164, 165, 166, 167, 168]
+	diff_g, lung_test, colon_test = mcf(lung_file,lung_150,lung_150,colon_file,colon_150,colon_150)
 
 	# with open('diff_g_output.json', 'w') as dg:
 	# 	json.dump(diff_g, dg)
@@ -266,13 +270,13 @@ if __name__ == '__main__':
 	# with open('colon_output.json','w') as co: 
 	# 	json.dump(colon_test,co)
 
-	with open('diff_g_output.pkl','wb') as dg: 
+	with open('diff_g_output_150.pkl','wb') as dg: 
 		pickle.dump(diff_g,dg,pickle.HIGHEST_PROTOCOL)
 
-	with open('lung_output.pkl','wb') as lo: 
+	with open('lung_output_150.pkl','wb') as lo: 
 		pickle.dump(lung_test,lo,pickle.HIGHEST_PROTOCOL)
 
-	with open('colon_output.pkl','wb') as co: 
+	with open('colon_output_150.pkl','wb') as co: 
 		pickle.dump(colon_test,co,pickle.HIGHEST_PROTOCOL)
 
 	print 'DONE!'
